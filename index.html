@@ -43,7 +43,7 @@
             background-color: #f4f4f4;
             border: 1px solid #ccc;
             font-size: 14px;
-            font-weight: bold;
+            font-weight: normal;
             color: black; /* Ensure text is visible */
         }
 
@@ -88,15 +88,18 @@
 
     <div class="container">
         <div>
-            <!-- Toolbar for Rich Text Editor -->
+           <!-- Toolbar for Rich Text Editor -->
             <div class="toolbar">
-                <button onclick="document.execCommand('bold', false, null);">B</button>
-                <button onclick="document.execCommand('italic', false, null);">I</button>
-                <button onclick="document.execCommand('underline', false, null);">U</button>
+                <button onclick="document.execCommand('bold', false, null);"><b>B</b></button>
+                <button onclick="document.execCommand('italic', false, null);"><i>I</i></button>
+                <button onclick="document.execCommand('underline', false, null);"><u>U</u></button>
                 <button onclick="document.execCommand('justifyCenter', false, null);">Center</button>
-                <button onclick="document.execCommand('strikethrough', false, null);">S</button>
-                <button onclick="document.execCommand('fontSize', false, '5');">Font Size</button>
-                <button onclick="document.execCommand('foreColor', false, '#ff0000');">Red</button>
+                <button onclick="document.execCommand('strikethrough', false, null);"><strike>S</strike></button>
+                <button onclick="document.execCommand('fontSize', false, '5');">H2</button>
+                <button onclick="document.execCommand('foreColor', false, '#ff0000');"><font color="#ff0000">Red</font></button>
+                <button onclick="document.execCommand('foreColor', false, '#00acc1');"><font color="#00acc1">Cyan</font></button>
+                <button onclick="document.execCommand('foreColor', false, '#ffd700');"><font color="#ffd700">Gold</font></button>
+                <button onclick="document.execCommand('foreColor', false, '#ffffff');"><font color="#00000">White</font></button>
             </div>
             <label for="richTextInput">Rich Text</label>
             <div id="richTextInput" contenteditable="true" class="editable-box"></div>
