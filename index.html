@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rich Text or HTML to BBCode Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        /* Rich text input box styles */
+        #richTextInput {
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 500px;
+            height: 150px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            overflow-y: auto;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        /* Button styles */
+        button {
+            margin: 10px 5px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Output text areas (HTML and BBCode) */
+        #htmlOutput, #bbcodeOutput {
+            width: 500px;
+            height: 150px;
+            margin-top: 10px;
+            background-color: #fff;
+            overflow-y: auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        /* Adjust for the container with multiple text areas */
+        .container {
+            display: flex;
+            justify-content: space-between; /* Spread the boxes out */
+            gap: 20px; /* Space between the text boxes */
+            flex-wrap: wrap; /* Allow wrapping when screen is small */
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        .container div {
+            flex: 1 1 32%; /* Ensure each text box takes up a reasonable portion of the width */
+            min-width: 300px; /* Prevent the boxes from becoming too small */
+        }
+
+        /* Optional styles for labels */
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .buttons-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Rich Text or HTML to BBCode Converter</h1>
+
+    <div class="container">
+        <div>
+            <label for="richTextInput">Rich Text</label>
+            <div id="richTextInput" contenteditable="true" class="editable-box"></div>
+        </div>
+        <div>
+            <label for="htmlOutput">HTML Output</label>
+            <textarea id="htmlOutput" class="editable-box" readonly></textarea>
+        </div>
+        <div>
+            <label for="bbcodeOutput">BBCode Output</label>
+            <textarea id="bbcodeOutput" class="editable-box" readonly></textarea>
+        </div>
+    </div>
+
+    <div class="buttons-container">
+        <button onclick="convertToHTML()">Convert to HTML</button>
+        <button onclick="convertToBBCode()">Convert to BBCode</button>
+    </div>
+
+    <script>
+        // Function to convert rich text to HTML and display in the HTML output area
+        function convertToHTML() {
+            const inputHTML = document.getElementById("richTextInput").innerHTML;
+            document.getElementById("htmlOutput").value = inputHTML;
+        }
+
+        // Function to convert HTML to BBCode and display in the BBCode output area
+        function convertToBBCode() {
+            let htmlContent = document.getElementById("htmlOutput").value;
+            htmlContent = htmlContent.replace(/ style="[^"]*"/g, ""); // Remove inline style attributes
+            htmlContent = htmlContent.replace(/&nbsp;/g, " ");  // Non-breaking space -> Regular space
+
+            let bbCodeText = htmlContent
+                .replace(/<b>(.*?)<\/b>/g, "[b]$1[/b]")
+                .replace(/<strong>(.*?)<\/strong>/g, "[b]$1[/b]")
+                .replace(/<i>(.*?)<\/i>/g, "[i]$1[/i]")
+                .replace(/<u>(.*?)<\/u>/g, "[u]$1[/u]")
+                .replace(/<center>(.*?)<\/center>/g, "[center]$1[/center]")
+                .replace(/<div class="mediainfo">(.*?)<\/div>/g, "[mediainfo]$1[/mediainfo]")
+                .replace(/<a.*?href="(.*?)".*?>(.*?)<\/a>/g, "[url=$1]$2[/url]")
+                .replace(/<img src="(.*?)"(.*?)>/g, "[img]$1[/img]")
+                .replace(/<iframe.*?src="https:\/\/www\.youtube\.com\/embed\/(.*?)".*?>.*?<\/iframe>/g, "[video=$1]")
+                .replace(/<span class="spoiler">(.*?)<\/span>/g, "[spoiler]$1[/spoiler]")
+                .replace(/<blockquote>(.*?)<\/blockquote>/g, "[quote]$1[/quote]")
+                .replace(/<hr\s*\/?>/g, "[hr]")
+                .replace(/<span class="df">(.*?)<\/span>/g, "[df]$1[/df]")
+                .replace(/<span style="color:\s?(.*?)">(.*?)<\/span>/g, "[color=$1]$2[/color]")
+                .replace(/<span style="font-size:\s?(.*?)px">(.*?)<\/span>/g, "[size=$1]$2[/size]")
+                .replace(/<span style="font-family:\s?(.*?)">(.*?)<\/span>/g, "[font=$1]$2[/font]")
+
+                .replace(/<h1>(.*?)<\/h1>/g, "[size=7]$1[/size]")
+                .replace(/<h2>(.*?)<\/h2>/g, "[size=6]$1[/size]")
+                .replace(/<h3>(.*?)<\/h3>/g, "[size=5]$1[/size]")
+                .replace(/<h4>(.*?)<\/h4>/g, "[size=4]$1[/size]")
+
+                .replace(/<ul>(.*?)<\/ul>/gs, function(match, p1) {
+                    return p1.replace(/<li>(.*?)<\/li>/gs, "[*]$1\n");
+                })
+                .replace(/<ol>(.*?)<\/ol>/gs, function(match, p1) {
+                    return p1.replace(/<li>(.*?)<\/li>/gs, "[*]$1\n");
+                })
+
+                .replace(/<div.*?>/g, "\n")
+                .replace(/<\/div>/g, "")
+                .replace(/<span[^>]*>/g, "")
+                .replace(/<\/span>/g, "")
+                .replace(/<br\s*\/?>/g, "\n")
+                .replace(/<p>(.*?)<\/p>/g, "$1\n");
+
+            document.getElementById("bbcodeOutput").value = bbCodeText;
+        }
+    </script>
+
+</body>
+</html>
