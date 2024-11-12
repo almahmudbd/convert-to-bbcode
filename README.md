@@ -2,8 +2,7 @@
 
 This project is a simple web-based tool that allows you to convert rich text (HTML format) into BBCode format and vice versa. It provides an easy-to-use interface with a rich text editor, HTML output display, and BBCode conversion options.
 
-### [Open in browser](https://codepen.io/thealmahmud/full/oNKmBLm)
-[![Open In Browser](https://i.ibb.co.com/hZLzJDZ/view-demo.png)](https://codepen.io/thealmahmud/full/oNKmBLm)
+### [Open in browser](https://codepen.io/thealmahmud/full/oNKmBLm)  [![Open In Browser](https://i.ibb.co.com/4V6g2zw/view-demo.png)](https://codepen.io/thealmahmud/full/oNKmBLm)
 
 ## Features
 
