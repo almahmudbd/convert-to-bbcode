@@ -1,4 +1,4 @@
-# Rich Text / HTML to BBCode Converter
+# Rich Text (WYSWYG) / HTML to BBCode Converter
 
 This project provides a simple tool to convert rich text or HTML to BBCode.
 
