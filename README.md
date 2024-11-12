@@ -11,6 +11,7 @@ This project provides a simple tool to convert rich text or HTML to BBCode.
 1. Enter or paste text into the **Rich Text** editor.
 2. Click **Convert to HTML** to see HTML output.
 3. Click **Convert to BBCode** to see BBCode output.
+4. Don't forget to recheck the text.
 
 ## Notes
 - **Not all HTML/CSS elements have BBCode equivalents**, so some formatting may not convert perfectly.
