@@ -84,11 +84,11 @@
 </head>
 <body>
 
-    <h1>Rich Text or HTML to BBCode Converter</h1>
+    <h1>Rich Text (WYSWYG) or HTML to BBCode Converter</h1>
 
     <div class="container">
         <div>
-           <!-- Toolbar for Rich Text Editor -->
+            <!-- Toolbar for Rich Text Editor -->
             <div class="toolbar">
                 <button onclick="document.execCommand('bold', false, null);"><b>B</b></button>
                 <button onclick="document.execCommand('italic', false, null);"><i>I</i></button>
@@ -99,9 +99,9 @@
                 <button onclick="document.execCommand('foreColor', false, '#ff0000');"><font color="#ff0000">Red</font></button>
                 <button onclick="document.execCommand('foreColor', false, '#00acc1');"><font color="#00acc1">Cyan</font></button>
                 <button onclick="document.execCommand('foreColor', false, '#ffd700');"><font color="#ffd700">Gold</font></button>
-                <button onclick="document.execCommand('foreColor', false, '#ffffff');"><font color="#00000">White</font></button>
+                <button onclick="document.execCommand('foreColor', false, '#ffffff');"><font color="#000">White</font></button>
             </div>
-            <label for="richTextInput">Rich Text</label>
+            <label for="richTextInput">Paste Rich Text here:</label>
             <div id="richTextInput" contenteditable="true" class="editable-box"></div>
             
             <!-- Buttons for conversion below rich text input -->
@@ -112,15 +112,17 @@
         </div>
 
         <div>
-            <label for="htmlOutput">HTML Output</label>
+            <label for="htmlOutput">HTML Output:</label>
             <textarea id="htmlOutput" class="editable-box"></textarea>
         </div>
 
         <div>
-            <label for="bbcodeOutput">BBCode Output</label>
+            <label for="bbcodeOutput">BBCode Output:</label>
             <textarea id="bbcodeOutput" class="editable-box"></textarea>
         </div>
     </div>
+<hr/>
+<center><a href="https://github.com/almahmudbd/convert-to-bbcode" target=”_blank”>see the code</a></center>
 
     <script>
         // Function to convert rich text to HTML and display in the HTML output area
@@ -148,6 +150,7 @@
                 .replace(/<blockquote>(.*?)<\/blockquote>/g, "[quote]$1[/quote]")
                 .replace(/<hr\s*\/?>/g, "[hr]") 
                 .replace(/<span class="df">(.*?)<\/span>/g, "[df]$1[/df]")
+                .replace(/<font color="(.*?)">(.*?)<\/font>/g, "[color=$1]$2[/color]")
                 .replace(/<span style="color:\s?(.*?)">(.*?)<\/span>/g, "[color=$1]$2[/color]")
                 .replace(/<span style="font-size:\s?(.*?)px">(.*?)<\/span>/g, "[size=$1]$2[/size]")
                 .replace(/<span style="font-family:\s?(.*?)">(.*?)<\/span>/g, "[font=$1]$2[/font]")
