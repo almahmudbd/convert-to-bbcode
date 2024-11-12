@@ -2,6 +2,11 @@
 
 This project provides a simple tool to convert rich text or HTML to BBCode.
 
+
+### [Open in browser](https://codepen.io/thealmahmud/full/oNKmBLm)  
+[![Open In Browser](https://i.ibb.co.com/LYDKwH0/view-demo-Custom.png)](https://codepen.io/thealmahmud/full/oNKmBLm)
+
+
 ## Features
 - **Rich Text Editor** with basic formatting options (bold, italic, underline, etc.).
 - Converts rich text to HTML, then to BBCode.
