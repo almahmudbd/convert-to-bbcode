@@ -125,54 +125,68 @@
 <center><a href="https://github.com/almahmudbd/convert-to-bbcode" target=”_blank”>see the code</a></center>
 
     <script>
-        // Function to convert rich text to HTML and display in the HTML output area
-        function convertToHTML() {
-            const inputHTML = document.getElementById("richTextInput").innerHTML;
-            document.getElementById("htmlOutput").value = inputHTML;
-        }
+// Function to convert rich text to HTML and display in the HTML output area
+function convertToHTML() {
+    const inputHTML = document.getElementById("richTextInput").innerHTML;
+    document.getElementById("htmlOutput").value = inputHTML;
+}
 
-        // Function to convert HTML to BBCode and display in the BBCode output area
-        function convertToBBCode() {
-            let htmlContent = document.getElementById("htmlOutput").value;
-            htmlContent = htmlContent.replace(/ style="[^"]*"/g, "");
-            htmlContent = htmlContent.replace(/&nbsp;/g, " "); 
+// Function to convert HTML to BBCode and display in the BBCode output area
+function convertToBBCode() {
+    let htmlContent = document.getElementById("htmlOutput").value;
+    htmlContent = htmlContent.replace(/ style="[^"]*"/g, "");
+    htmlContent = htmlContent.replace(/&nbsp;/g, " "); 
 
-            let bbCodeText = htmlContent
-                .replace(/<b>(.*?)<\/b>/g, "[b]$1[/b]")
-                .replace(/<strong>(.*?)<\/strong>/g, "[b]$1[/b]")
-                .replace(/<i>(.*?)<\/i>/g, "[i]$1[/i]")
-                .replace(/<em>(.*?)<\/em>/g, "[i]$1[/i]")
-                .replace(/<u>(.*?)<\/u>/g, "[u]$1[/u]")
-                .replace(/<center>(.*?)<\/center>/g, "[center]$1[/center]")
-                .replace(/<a.*?href="(.*?)".*?>(.*?)<\/a>/g, "[url=$1]$2[/url]")
-                .replace(/<img src="(.*?)"(.*?)>/g, "[img]$1[/img]")
-                .replace(/<iframe.*?src="https:\/\/www\.youtube\.com\/embed\/(.*?)".*?>.*?<\/iframe>/g, "[video=$1]")
-                .replace(/<blockquote>(.*?)<\/blockquote>/g, "[quote]$1[/quote]")
-                .replace(/<hr\s*\/?>/g, "[hr]") 
-                .replace(/<span class="df">(.*?)<\/span>/g, "[df]$1[/df]")
-                .replace(/<font color="(.*?)">(.*?)<\/font>/g, "[color=$1]$2[/color]")
-                .replace(/<span style="color:\s?(.*?)">(.*?)<\/span>/g, "[color=$1]$2[/color]")
-                .replace(/<span style="font-size:\s?(.*?)px">(.*?)<\/span>/g, "[size=$1]$2[/size]")
-                .replace(/<span style="font-family:\s?(.*?)">(.*?)<\/span>/g, "[font=$1]$2[/font]")
-                .replace(/<h1>(.*?)<\/h1>/g, "[size=7]$1[/size]")
-                .replace(/<h2>(.*?)<\/h2>/g, "[size=6]$1[/size]")
-                .replace(/<h3>(.*?)<\/h3>/g, "[size=5]$1[/size]")
-                .replace(/<h4>(.*?)<\/h4>/g, "[size=4]$1[/size]")
-                .replace(/<ul>(.*?)<\/ul>/gs, function(match, p1) {
-                    return p1.replace(/<li>(.*?)<\/li>/gs, "[*]$1\n");
-                })
-                .replace(/<ol>(.*?)<\/ol>/gs, function(match, p1) {
-                    return p1.replace(/<li>(.*?)<\/li>/gs, "[*]$1\n");
-                })
-                .replace(/<div.*?>/g, "\n")
-                .replace(/<\/div>/g, "")
-                .replace(/<span[^>]*>/g, "")
-                .replace(/<\/span>/g, "")
-                .replace(/<br\s*\/?>/g, "\n")
-                .replace(/<p>(.*?)<\/p>/g, "$1\n");
+    let bbCodeText = htmlContent
+        .replace(/<b>(.*?)<\/b>/g, "[b]$1[/b]")
+        .replace(/<strong>(.*?)<\/strong>/g, "[b]$1[/b]")
+        .replace(/<i>(.*?)<\/i>/g, "[i]$1[/i]")
+        .replace(/<em>(.*?)<\/em>/g, "[i]$1[/i]")
+        .replace(/<u>(.*?)<\/u>/g, "[u]$1[/u]")
+        .replace(/<center>(.*?)<\/center>/g, "[center]$1[/center]")
+        .replace(/<a.*?href="(.*?)".*?>(.*?)<\/a>/g, "[url=$1]$2[/url]")
+        .replace(/<img src="(.*?)"(.*?)>/g, "[img]$1[/img]")
+        .replace(/<iframe.*?src="https:\/\/www\.youtube\.com\/embed\/(.*?)".*?>.*?<\/iframe>/g, "[video=$1]")
+        .replace(/<blockquote>(.*?)<\/blockquote>/g, "[quote]$1[/quote]")
+        .replace(/<hr\s*\/?>/g, "[hr]") 
+        .replace(/<span class="df">(.*?)<\/span>/g, "[df]$1[/df]")
 
-            document.getElementById("bbcodeOutput").value = bbCodeText;
-        }
+        // Convert <font> with color and size attributes to [color] and [size]
+        .replace(/<font color="(#[0-9a-fA-F]{6}|[a-zA-Z]+)">(.*?)<\/font>/g, "[color=$1]$2[/color]")
+        .replace(/<font size="(\d+)">(.*?)<\/font>/g, "[size=$1]$2[/size]")
+        .replace(/<font color="(#[0-9a-fA-F]{6}|[a-zA-Z]+)" size="(\d+)">(.*?)<\/font>/g, "[color=$1][size=$2]$3[/size][/color]")
+        .replace(/<\/?font[^>]*>/g, "")
+
+        // Convert <h1> to <h4> tags to BBCode [size]
+        .replace(/<h1>(.*?)<\/h1>/g, "[size=7]$1[/size]")
+        .replace(/<h2>(.*?)<\/h2>/g, "[size=6]$1[/size]")
+        .replace(/<h3>(.*?)<\/h3>/g, "[size=5]$1[/size]")
+        .replace(/<h4>(.*?)<\/h4>/g, "[size=4]$1[/size]")
+
+        // Convert <ul> and <ol> to [*] lists
+        .replace(/<ul>(.*?)<\/ul>/gs, function(match, p1) {
+            return p1.replace(/<li>(.*?)<\/li>/gs, "[*]$1\n");
+        })
+        .replace(/<ol>(.*?)<\/ol>/gs, function(match, p1) {
+            return p1.replace(/<li>(.*?)<\/li>/gs, "[*]$1\n");
+        })
+        
+        // Remove <div> tags, replace with line breaks
+        .replace(/<div.*?>/g, "\n")
+        .replace(/<\/div>/g, "")
+
+        // Remove <span> tags, if not needed
+        .replace(/<span[^>]*>/g, "")
+        .replace(/<\/span>/g, "")
+        
+        // Replace <br> tags with line breaks
+        .replace(/<br\s*\/?>/g, "\n")
+        
+        // Convert <p> to line breaks
+        .replace(/<p>(.*?)<\/p>/g, "$1\n");
+
+    document.getElementById("bbcodeOutput").value = bbCodeText;
+}
     </script>
 
 </body>
